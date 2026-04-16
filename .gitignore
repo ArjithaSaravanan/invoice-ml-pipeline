@@ -209,3 +209,4 @@ __marimo__/
 #Current modules to be ignored now
 data/processed/
 outputs/
+temp_uploads/

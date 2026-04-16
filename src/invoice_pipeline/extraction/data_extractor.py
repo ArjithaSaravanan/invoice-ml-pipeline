@@ -1,6 +1,26 @@
 import re
-from typing import List, Dict
+from typing import Optional, Dict
 from invoice_pipeline.extraction.cleaner import clean_text, clean_number
+from invoice_pipeline.extraction.field_aliases import FIELD_ALIASES
+
+def _build_label_pattern(alias_list):
+    escaped_aliases = [re.escape(alias) for alias in alias_list]
+    return r"(?:%s)" % "|".join(escaped_aliases)
+
+def _extract_field_by_alias(text: str, field_name: str) -> Optional[str]:
+    aliases = FIELD_ALIASES[field_name]["aliases"]
+    label_pattern = _build_label_pattern(aliases)
+
+    pattern = rf"(?i){label_pattern}\s*[:#-]?\s*(.+)"
+    for line in text.splitlines():
+        line = line.strip()
+        match = re.search(pattern, line)
+        if match:
+            value = match.group(1).strip()
+            value = re.split(r"\s{2,}", value)[0].strip()
+            return value
+    return None
+
 
 def extract_invoice_fields(text: str) -> Dict:
     """
@@ -9,26 +29,25 @@ def extract_invoice_fields(text: str) -> Dict:
     result = {
         "invoice_number": None,
         "date": None,
+        "due_date": None,
         "total_amount": None,
         "items": []
     }
 
-    invoice_number_match = re.search(r"Invoice\s*Number[:\s]*([A-Za-z0-9-]+)", text)
-    if invoice_number_match:
-        result["invoice_number"] = invoice_number_match.group(1)
+    result["invoice_number"] = _extract_field_by_alias(text, "invoice_number")
+    result["date"] = _extract_field_by_alias(text, "date")
+    result["due_date"] = _extract_field_by_alias(text, "due_date")
 
-    date_match = re.search(r"Date:\s*([\d-]+)", text)
-    if date_match:
-        result["date"] = date_match.group(1)
+    total_raw = _extract_field_by_alias(text, "total_amount")
+    if total_raw:
+        total_match = re.search(r"(\d+[.,]?\d*)", total_raw)
+        if total_match:
+            result["total_amount"] = total_match.group(1).replace(",", ".")
 
-    total_match = re.search(r"Total\s*Amount:\s*€?(\d+)", text)
-    if total_match:
-        result["total_amount"] = total_match.group(1)
-
-    lines = text.splitlines()
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
     for line in lines:
         if "|" in line:
-            parts = [p.strip() for p in line.split("|") if p.strip()]
+            parts = [clean_text(p) for p in line.split("|") if p.strip()]
 
             if len(parts) >= 4:
                 item = clean_text(parts[0])
@@ -36,12 +55,11 @@ def extract_invoice_fields(text: str) -> Dict:
                 price = clean_number(parts[2])
                 total = clean_number(parts[3])
 
-                if qty and price:
+                if item and qty is not None and price is not None:
                     result["items"].append({
                         "item": item,
                         "quantity": qty,
                         "price": price,
                         "total": total
                     })
-
     return result
