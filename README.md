@@ -37,8 +37,11 @@ The goal is to simulate real-world business automation use case where invoice da
 Invoice documents are often received as PDFs and many of them are semi-structured or image based. This makes direct extraction difficult because,
 
 -PDFs may not contain clean machine readable text
+
 -OCR quality could vary depending on document quality
+
 -Extracted text is often noisy and not properly structured
+
 -Businesses requires structured output for example invoice number, date, total amount, line items, etc
 
 The objective of this project is to build an end-to-end pipeline that takes an invoice PDF as input and returns structured invoice data as JSON.
@@ -60,9 +63,15 @@ This project currently focuses on **clean digital invoice templates** as the pri
 ## Key Features
 
 -PDF to image conversion
+
 -Image preprocessing using OpenCV
+
 -OCR text extraction using Tesseract
+
 -Rule-based extraction of key invoice fields
+
 -Batch pipeline support for processing multiple documents
+
 -FastAPI endpoint for uploading and processing invoices
+
 -Modular code structure suitable for extension
