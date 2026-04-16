@@ -9,12 +9,19 @@ A production style end-to-end invoice processing system that extracts structured
 -[Solution Overview](#solution-overview)
 
 -[Key Features](#key-features)
+
 -[Technology stack](#technology-stack)
+
 -[Workflow](#workflow)
+
 -[Supported Input](#supported-input)
+
 -[Current Scope](#current-scope)
+
 -[Example API Response](#example-api-response)
+
 -[Setup Instructions](#setup-instructions)
+
 -[Environment configuaration](#environment-configuration)
 
 ---
