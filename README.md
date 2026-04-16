@@ -3,8 +3,11 @@ A production style end-to-end invoice processing system that extracts structured
 
 ## Table of Contents
 -[Project Overview](#project-overview)
+
 -[Problem Statement](#problem-statement)
+
 -[Solution Overview](#solution-overview)
+
 -[Key Features](#key-features)
 -[Technology stack](#technology-stack)
 -[Workflow](#workflow)
