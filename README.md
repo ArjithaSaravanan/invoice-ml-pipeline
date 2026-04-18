@@ -105,13 +105,13 @@ http://127.0.0.1:8000/docs
 Upload an invoice PDF and test the pipeline
 
 ## Prerequisites
-- **Tesseract OCR**
+### Tesseract OCR
 Install Tesseract and add it to your system PATH
-- **Poppler (for PDF processing)**
+### Poppler (for PDF processing)
 Required for `pdf2image`
-    - **Windows**
-      Download: [Poppler-Windows](https://github.com/oschwartz10612/poppler-windows/releases/)
-      Add the `bin` folder to PATH.
+  #### Windows
+  - Download: [Poppler-Windows](https://github.com/oschwartz10612/poppler-windows/releases/)
+  - Add the `bin` folder to PATH.
 
 
 
