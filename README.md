@@ -35,22 +35,22 @@ Example output:
 }
 ```
 ## How I approached it
-# 1. PDF to Image Conversion
+### 1. PDF to Image Conversion
 Since OCR works on images and not directly on PDFs, I used `pdf2image` to convert each page of the invoice into an image.
 This standardized the input format allowing further image processing.
 
-# 2. Image Preprocessing
+### 2. Image Preprocessing
 Raw images from PDFs often contain noise or low contrast, which reduces OCR accuracy. To improve this, I applied:
   - grayscale conversion
   - thresholding
   - basic noise reduction
 These steps helped make the text more readable for the OCR engine.
 
-# 3. OCR (Text Extraction)
+### 3. OCR (Text Extraction)
 I used **Tesseract OCR** to extract text from th eprocessed images.
 During this step, I faced challenges such as broken words, incorrect characters and inconsistent spacing. This made it clear that OCR output is rarely perfect and needs further processing.
 
-# 4. Field Extraction
+### 4. Field Extraction
 After extracting raw text, I implemented simple parsing logic to identify key fields such as:
   - invoice number
   - date
@@ -58,7 +58,7 @@ After extracting raw text, I implemented simple parsing logic to identify key fi
 For this, I used keyword matching and basic pattern matching (regex).
 For item-level data, I attempted to extract structured rows, though this part can vary depending on invoice format.
 
-# 5. API (FastAPI)
+### 5. API (FastAPI)
 To make the pipeline usable, I exposed it through a FastAPI REST API.
 **Endpoint**
 ```
@@ -105,13 +105,13 @@ http://127.0.0.1:8000/docs
 Upload an invoice PDF and test the pipeline
 
 ## Prerequisites
-**Tesseract OCR**
+- **Tesseract OCR**
 Install Tesseract and add it to your system PATH
-**Poppler (for PDF processing)**
+- **Poppler (for PDF processing)**
 Required for `pdf2image`
-  **Windows**
-  Download: [Poppler-Windows](https://github.com/oschwartz10612/poppler-windows/releases/)
-  Add the `bin` folder to PATH.
+    - **Windows**
+      Download: [Poppler-Windows](https://github.com/oschwartz10612/poppler-windows/releases/)
+      Add the `bin` folder to PATH.
 
 
 
