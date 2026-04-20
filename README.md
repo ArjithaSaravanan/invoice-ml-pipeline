@@ -44,10 +44,11 @@ Raw images from PDFs often contain noise or low contrast, which reduces OCR accu
   - grayscale conversion
   - thresholding
   - basic noise reduction
+
 These steps helped make the text more readable for the OCR engine.
 
 ### 3. OCR (Text Extraction)
-I used **Tesseract OCR** to extract text from th eprocessed images.
+I used **Tesseract OCR** to extract text from the processed images.
 During this step, I faced challenges such as broken words, incorrect characters and inconsistent spacing. This made it clear that OCR output is rarely perfect and needs further processing.
 
 ### 4. Field Extraction
@@ -55,6 +56,7 @@ After extracting raw text, I implemented simple parsing logic to identify key fi
   - invoice number
   - date
   - total amount
+
 For this, I used keyword matching and basic pattern matching (regex).
 For item-level data, I attempted to extract structured rows, though this part can vary depending on invoice format.
 
