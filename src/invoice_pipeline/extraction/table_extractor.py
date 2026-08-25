@@ -1,5 +1,6 @@
 import pytesseract
 import cv2
+import os
 
 tesseract_path = os.getenv("TESSERACT_PATH")
 if tesseract_path:
